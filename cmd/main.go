@@ -7,8 +7,12 @@ import (
 	"path/filepath"
 	"syscall"
 
+	"github.com/EliezerSouz/conexao_mysql/modulos"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
+
+var shutdownSignal = make(chan os.Signal, 1)
 
 func main() {
 	exePath, err := os.Executable()
@@ -22,14 +26,14 @@ func main() {
 
 	//Carregar variaveis do ambiente
 
-	err = gototenv.Load(".env")
+	err = godotenv.Load(".env")
 	if err != nil {
 		log.Fatal("Erro ao carregar variaveis de ambiente: ", err)
 	}
 
 	router := gin.Default()
 
-	router.Get("/api/baixar-xmls", BaixarXmlsHandler)
+	router.GET("/api/baixar-xmls", modulos.BaixarXmlsHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {

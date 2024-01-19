@@ -10,6 +10,8 @@ import (
 	"os"
 	"strings"
 
+	"github.com/EliezerSouz/mysql_conexao/db"
+	"github.com/EliezerSouz/mysql_conexao/modulos"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
