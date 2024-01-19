@@ -10,12 +10,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/EliezerSouz/conexao_mysql"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func BaixarXmlsHandler(c * gin.Context){
+func BaixarXmlsHandler(c *gin.Context) {
 	dataInicial := c.Query("dataInicial")
 	dataFinal := c.Query("dataFinal")
 	emissorP := c.Query("emissorP")
