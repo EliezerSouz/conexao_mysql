@@ -6,33 +6,13 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"strings"
 
-	"github.com/EliezerSouz/mysql_conexao/db"
-	"github.com/EliezerSouz/mysql_conexao/modulos"
-	"github.com/gin-gonic/gin"
+	"conexao_mysql/db"
+	
 	_ "github.com/go-sql-driver/mysql"
 )
-
-func BaixarXmlsHandler(c *gin.Context) {
-	dataInicial := c.Query("dataInicial")
-	dataFinal := c.Query("dataFinal")
-	emissorP := c.Query("emissorP")
-	emissorT := c.Query("emissorT")
-	_nfe := c.Query("_nfe")
-	_nfce := c.Query("_nfce")
-	// Execute a lógica para baixar XMLs
-	err := modulos.BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	// Responda com uma mensagem de sucesso
-	c.JSON(http.StatusOK, gin.H{"message": "BaixarXmlsHandler executado com sucesso"})
-}
 
 func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) error {
 

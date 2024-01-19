@@ -2,12 +2,14 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
 	"syscall"
 
-	"github.com/EliezerSouz/conexao_mysql/modulos"
+	"conexao_mysql/modulos"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -33,7 +35,7 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/api/baixar-xmls", modulos.BaixarXmlsHandler)
+	router.GET("/api/baixar-xmls", BaixarXmlsHandler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -52,3 +54,21 @@ func main() {
 
 	os.Exit(0)
 }
+func BaixarXmlsHandler(c *gin.Context) {
+	dataInicial := c.Query("dataInicial")
+	dataFinal := c.Query("dataFinal")
+	emissorP := c.Query("emissorP")
+	emissorT := c.Query("emissorT")
+	_nfe := c.Query("_nfe")
+	_nfce := c.Query("_nfce")
+	// Execute a lógica para baixar XMLs
+	err := modulos.BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Responda com uma mensagem de sucesso
+	c.JSON(http.StatusOK, gin.H{"message": "BaixarXmlsHandler executado com sucesso"})
+}
+
