@@ -1,29 +1,18 @@
 package modulos
 
 import (
-	"archive/zip"
 	"encoding/xml"
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"strings"
 
 	"conexao_mysql/db"
-	
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) error {
-
-	fmt.Println("creating zip archive...")
-	//archive, err := os.Create("archive.zip")
-	archive, err := os.Create("Xmls.zip")
-	if err != nil {
-		panic(err)
-	}
-	defer archive.Close()
-	zipWriter := zip.NewWriter(archive)
 
 	db, err := db.GetDB()
 	if err != nil {
@@ -145,21 +134,9 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 					panic(ferr)
 				}
 				defer f.Close()
-				w1, err := zipWriter.Create(filepath)
-				if err != nil {
-					println("erro1")
-					panic(err)
-				}
-				if _, err := io.Copy(w1, f); err != nil {
-					println("erro2")
-					panic(err)
-				}
 			}
 		}
 	}
 
-	fmt.Println("Fechando arquivo zip...")
-	zipWriter.Flush()
-	zipWriter.Close()
 	return nil
 }
