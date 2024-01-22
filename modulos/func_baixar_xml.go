@@ -23,7 +23,7 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 	defer db.Close()
 
 	//query := "select notafiscal, serie, modelo, chave_nota , xml_final, nota_cabecalho.fs_fase from nota_xml join nota_cabecalho ON nota_cabecalho.id = nota_xml.nota_cabecalho_id where xml_final is not null and data_nota between '2023-11-01' and '2023-11-30' and modelo in ('55','65') and emissor = 'P' order by modelo;"
-	query := fmt.Sprintf("select xml_final, nota_cabecalho.fs_fase, nota_xml.emissor from nota_xml join nota_cabecalho ON nota_cabecalho.id = nota_xml.nota_cabecalho_id where xml_final is not null and data_nota between '%s' and '%s' and emissor in('%s', '%s') and modelo in ('%s','%s') order by nota_xml.notafiscal;", dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce)
+	query := fmt.Sprintf("select xml_final, nota_cabecalho.fs_fase, nota_xml.emissor from nota_xml join nota_cabecalho ON nota_cabecalho.id = nota_xml.nota_cabecalho_id where xml_final is not null and data_nota between '%s' and '%s' and emissor in('%s', '%s') and modelo in ('%s','%s') order by data_nota;", dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce)
 	rows, err := db.Query(query)
 	if err != nil {
 		log.Fatalf("Erro ao executar a consulta: %v", err)
@@ -125,7 +125,7 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 
 				filepath := fmt.Sprintf("%s/%s", diretorio, filename)
 
-				if vigenciaXml == diretorioAnterior {
+				if vigenciaXml != diretorioAnterior {
 					fmt.Println("Copiando xmls referência: ", vigenciaXml)
 				}
 				diretorioAnterior = vigenciaXml
