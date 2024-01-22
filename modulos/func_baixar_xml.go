@@ -129,7 +129,7 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 					fmt.Println("Copiando xmls referência: ", vigenciaXml)
 				}
 				diretorioAnterior = vigenciaXml
-				fmt.Println("Copiando arquivo:", filename)
+				//fmt.Println("Copiando arquivo:", filename)
 				err = os.WriteFile(filepath, []byte(xmls.XmlFinalNF), 0644)
 				if err != nil {
 					log.Printf("Erro ao copiar arquivo: %v", err)
