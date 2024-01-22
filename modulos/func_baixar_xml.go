@@ -14,6 +14,7 @@ import (
 
 func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) error {
 
+	var diretorioAnterior = ""
 	db, err := db.GetDB()
 	if err != nil {
 		log.Fatal("database connection error, see .env configuration")
@@ -123,6 +124,11 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 				}
 
 				filepath := fmt.Sprintf("%s/%s", diretorio, filename)
+
+				if diretorio != diretorioAnterior {
+					fmt.Println("Copiando arquivos referência: ", diretorio)
+				}
+				diretorioAnterior = diretorio
 				fmt.Println("Copiando arquivo:", filename)
 				err = os.WriteFile(filepath, []byte(xmls.XmlFinalNF), 0644)
 				if err != nil {
