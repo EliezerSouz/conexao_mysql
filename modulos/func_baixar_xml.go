@@ -125,10 +125,11 @@ func BaixarXmls(dataInicial, dataFinal, emissorP, emissorT, _nfe, _nfce string) 
 
 				filepath := fmt.Sprintf("%s/%s", diretorio, filename)
 
-				if diretorio != diretorioAnterior {
-					fmt.Println("Copiando xmls referência: ", diretorio)
+				if vigenciaXml == diretorioAnterior {
+					fmt.Println("Copiando xmls referência: ", vigenciaXml)
 				}
-				diretorioAnterior = diretorio
+				diretorioAnterior = vigenciaXml
+				fmt.Println("Copiando xmls referência: ", diretorio)
 				fmt.Println("Copiando arquivo:", filename)
 				err = os.WriteFile(filepath, []byte(xmls.XmlFinalNF), 0644)
 				if err != nil {
